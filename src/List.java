@@ -4,5 +4,4 @@ public interface List<T> {
     public T get (int index) throws Exception;
     public T remove (int index) throws Exception;
     public int size();
-    public Iterator<T> iterator();
 }
