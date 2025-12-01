@@ -1,21 +1,8 @@
-public class DoubleLinkedList<T> implements List<T> {
-    // iterator for Double Linked List
-    private class ListIterator<U> implements Iterator<U> {
-        private Node node = head;
-        
-        @Override
-        public boolean hasNext(){
-            return node.next != null;
-        }
-        
-        @Override
-        public U next(){ // Return data and advance
-            Node prev = node;
-            node = node.next;
-            return (U) prev.data;
-        }
-    }
-    
+public class DoubleLinkedList<T> implements List<T> {   
+    /**
+     * Node class for doubly linked list
+     * Each node has data, next pointer and prev pointer
+     */
     private class Node<V> {
         V data; 
         Node<V> next;
@@ -30,20 +17,22 @@ public class DoubleLinkedList<T> implements List<T> {
 
     int size;
     Node<T> head;
-    
     public DoubleLinkedList(){
         size = 0;
         head = null;
     }
 
+    /**
+     * Adding element at the end of the list
+     */
     @Override
     public boolean add(T element) {
-         if (size == 0) {
+         if (size == 0) { // empty list
             head = new Node(element);
             size++;
             return true;
         }
-        // else
+        // else iterate to the end and add the new node, adjusting pointers
         Node node = head;
         while (node.next != null){
             node = node.next;
@@ -56,14 +45,17 @@ public class DoubleLinkedList<T> implements List<T> {
         return true;
     }
 
+    /**
+     * Inserting element at specific index in the list
+     */
     @Override
     public void add(int index, T element) throws Exception {
         Node node = new Node(element);
-        if(index == 0){
+        if(index == 0){ // inserting at the head
            node.next = head;
            head = node; 
         }
-        else {
+        else { // iterating to the position and setting the links
             Node previous = head;
             for(int i = 0; i < index-1; i++){
                 previous = previous.next;
@@ -76,11 +68,15 @@ public class DoubleLinkedList<T> implements List<T> {
         size++;
     }
 
+    /**
+     * Getting element at specific index in the list
+     */
     @Override
     public T get(int index) throws Exception {
-        if(index < 0 || index > size){
+        if(index < 0 || index > size){ // bounds check
             throw new Exception("List index out of bounds");
         }
+        // iterating to the index and returning data
         Node<T> current = head;
         for(int i = 0; i < index; i++){
             current = current.next;
@@ -88,9 +84,12 @@ public class DoubleLinkedList<T> implements List<T> {
         return current.data;
     }
 
+    /**
+     *  Removing element at specific index in the list
+     */ 
     @Override
     public T remove(int index) throws Exception {
-        if(index < 0 || index >= size){
+        if(index < 0 || index >= size){ // bounds check
             throw new Exception("List index out of bounds");
         }
         
@@ -101,7 +100,7 @@ public class DoubleLinkedList<T> implements List<T> {
             size--;
             return node.data;
         }
-        // else
+        // else iterating to the last position, adding node, adjusting links, returning data
         Node previous = head;
         for(int i = 0; i < index-1; i++){
             previous = previous.next;
@@ -115,13 +114,11 @@ public class DoubleLinkedList<T> implements List<T> {
         return node.data;
     }
 
+    /**
+     * Getting size of the list
+     */
     @Override
     public int size() {
         return size;
-    }
-
-    @Override
-    public Iterator<T> iterator(){
-        return new ListIterator<>();
     }
 }
