@@ -1,21 +1,8 @@
 public class SingleLinkedList<T> implements List<T> {
-    // iterator for Single Linked List
-    protected class ListIterator<U> implements Iterator<U> {
-        private Node node = head;
-        
-        @Override
-        public boolean hasNext () {
-            return node.next != null;
-        }
-        
-        @Override
-        public U next () { // Return data and advance
-            Node prev = node;
-            node = node.next;
-            return (U) prev.data;
-        }
-    }
-    
+    /**
+     * Node class for singly linked list
+     * Each node has data and next pointer
+     */
     private class Node<V> {
         V data; 
         Node<V> next;
@@ -28,20 +15,22 @@ public class SingleLinkedList<T> implements List<T> {
 
     int size;
     Node<T> head;
-
     public SingleLinkedList() {
         size = 0;
         head = null;
     }
 
+    /**
+     * Adding element at the end of the list
+     */
     @Override
     public boolean add(T element) {
-        if (size == 0) {
+        if (size == 0) { // adding to empty list
             head = new Node(element);
             size++;
             return true;
         }
-        // else
+        // else iterate to the end and add the new node, adjusting pointers
         Node node = head;
         while (node.next != null){
             node = node.next;
@@ -53,14 +42,18 @@ public class SingleLinkedList<T> implements List<T> {
         return true;
     }
 
+    /**
+     * Inserting element at specific index in the list
+     */
     @Override
     public void add(int index, T element) throws Exception {
         Node node = new Node(element);
-        if(index == 0){
+        if(index == 0){ // inserting at the head
            node.next = head;
            head = node; 
         }
         else {
+            // else iterating to the position, adding node, setting the links, increasing size
             Node prev = head;
             for(int i = 0; i < index-1; i++){
                 prev = prev.next;
@@ -71,19 +64,22 @@ public class SingleLinkedList<T> implements List<T> {
         size++;
     }
 
+    /**
+     * Removing element at specific index in the list
+     */
     @Override
     public T remove(int index) throws Exception {
-        if(index < 0 || index >= size){
+        if(index < 0 || index >= size){ // bounds check
             throw new Exception("List index out of bounds");
         }
-
+        // if removing at head
         if(index == 0) {
             Node<T> node = head;
             head = head.next;
             size--;
             return node.data;
         }
-        // else
+        // else iterating to the position, adjusting links, returning data
         Node prev = head;
         for(int i = 0; i < index-1; i++){
             prev = prev.next;
@@ -94,12 +90,15 @@ public class SingleLinkedList<T> implements List<T> {
         return node.data;
     }
 
+    /**
+     * Getting element at specific index in the list
+     */
     @Override
     public T get(int index) throws Exception {
-        if(index < 0 || index > size){
+        if(index < 0 || index > size){ // bounds check
             throw new Exception("List index out of bounds");
         }
-
+        // iterating to the index and returning data
         Node<T> current = head;
         for(int i = 0; i < index; i++){
             current = current.next;
@@ -107,13 +106,11 @@ public class SingleLinkedList<T> implements List<T> {
         return current.data;
     }
 
+    /**
+     * Getting size of the list
+     */
     @Override
     public int size(){
         return size;
-    }
-
-    @Override
-    public Iterator<T> iterator(){
-        return new ListIterator<>();
     }
 }
